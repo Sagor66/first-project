@@ -14,3 +14,11 @@ npm i -D --exact prettier
 npm i ts-node-dev --save-dev
 npm i dotenv
 tsc -init
+
+<!-- USE ANY -->
+<!-- 1 -->
+
+npm i validator
+npm i -D @types/validator
+
+<!-- 2 -->
