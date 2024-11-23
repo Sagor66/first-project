@@ -22,3 +22,7 @@ npm i validator
 npm i -D @types/validator
 
 <!-- 2 -->
+
+npm i joi
+
+<!-- 3 -->
