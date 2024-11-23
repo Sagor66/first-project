@@ -10,13 +10,24 @@ const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required.'],
+    trim: true,
+    maxlength: [20, 'First name can not be more than 20 characters'],
+    validate: {
+      validator: function (value: string) {
+        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+        return firstNameStr === value;
+      },
+      message: '{VALUE} is not in capitalized format',
+    },
   },
   middleName: {
     type: String,
+    trim: true,
   },
   lastName: {
     type: String,
     required: [true, 'Last name is required.'],
+    trim: true,
   },
 });
 
@@ -32,10 +43,6 @@ const guardianSchema = new Schema<Guardian>({
   fatherContactNo: {
     type: String,
     required: [true, "Father's contact number is required."],
-    match: [
-      /^\d{10}$/,
-      "Father's contact number must be a valid 10-digit number.",
-    ],
   },
   motherName: {
     type: String,
@@ -48,10 +55,6 @@ const guardianSchema = new Schema<Guardian>({
   motherContactNo: {
     type: String,
     required: [true, "Mother's contact number is required."],
-    match: [
-      /^\d{10}$/,
-      "Mother's contact number must be a valid 10-digit number.",
-    ],
   },
 });
 
@@ -67,10 +70,6 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   contactNo: {
     type: String,
     required: [true, "Local guardian's contact number is required."],
-    match: [
-      /^\d{10}$/,
-      "Local guardian's contact number must be a valid 10-digit number.",
-    ],
   },
   address: {
     type: String,
@@ -105,20 +104,14 @@ const studentSchema = new Schema<Student>({
     type: String,
     required: [true, 'Email address is required.'],
     unique: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address.'],
   },
   contactNo: {
     type: String,
     required: [true, 'Contact number is required.'],
-    match: [/^\d{10}$/, 'Contact number must be a valid 10-digit number.'],
   },
   emergencyContactNo: {
     type: String,
     required: [true, 'Emergency contact number is required.'],
-    match: [
-      /^\d{10}$/,
-      'Emergency contact number must be a valid 10-digit number.',
-    ],
   },
   bloodGroup: {
     type: String,
@@ -146,7 +139,6 @@ const studentSchema = new Schema<Student>({
   },
   profileImg: {
     type: String,
-    match: [/^(http|https):\/\/[^\s]+$/, 'Profile image must be a valid URL.'],
   },
   isActive: {
     type: String,
