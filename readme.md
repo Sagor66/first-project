@@ -15,7 +15,7 @@ npm i ts-node-dev --save-dev
 npm i dotenv
 tsc -init
 
-<!-- USE ANY -->
+<!-- USE ANY (START) -->
 <!-- 1 -->
 
 npm i validator
@@ -26,3 +26,7 @@ npm i -D @types/validator
 npm i joi
 
 <!-- 3 -->
+
+npm install zod
+
+<!-- USE ANY (END) -->
