@@ -30,3 +30,6 @@ npm i joi
 npm install zod
 
 <!-- USE ANY (END) -->
+
+npm i bcryptjs
+npm i -D @types/bcryptjs

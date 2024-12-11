@@ -6,6 +6,8 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
+import bcrypt from 'bcryptjs';
+import config from '../../config';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -84,6 +86,12 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, 'Student ID is required.'],
     unique: true,
   },
+  password: {
+    type: String,
+    required: [true, 'Password is required.'],
+    unique: true,
+    maxLength: [20, 'Password can not be more than 20 characters'],
+  },
   name: {
     type: userNameSchema,
     required: [true, 'Student name is required.'],
@@ -149,6 +157,15 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     },
     default: 'active',
   },
+});
+
+studentSchema.pre('save', async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
 });
 
 // Creating a custom static method
