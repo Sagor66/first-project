@@ -89,7 +89,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   password: {
     type: String,
     required: [true, 'Password is required.'],
-    unique: true,
     maxLength: [20, 'Password can not be more than 20 characters'],
   },
   name: {
@@ -157,14 +156,41 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     },
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+// Pre save middleware / hook (hashing the password)
 studentSchema.pre('save', async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_rounds),
   );
+  next();
+});
+
+// Post save middleware / hook (removing the hashed password from response)
+studentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// Query middleware to filter out deleted users
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
