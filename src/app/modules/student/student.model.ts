@@ -6,8 +6,6 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
-import bcrypt from 'bcryptjs';
-import config from '../../config';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -87,10 +85,11 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Student ID is required.'],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required.'],
-      maxLength: [20, 'Password can not be more than 20 characters'],
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id is required'],
+      unique: true,
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -149,14 +148,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     profileImg: {
       type: String,
     },
-    isActive: {
-      type: String,
-      enum: {
-        values: ['active', 'blocked'],
-        message: 'Status must be either "active" or "blocked".',
-      },
-      default: 'active',
-    },
     isDeleted: {
       type: Boolean,
       default: false,
@@ -168,22 +159,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
   },
 );
-
-// Pre save middleware / hook (hashing the password)
-studentSchema.pre('save', async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
-// Post save middleware / hook (removing the hashed password from response)
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
-});
 
 // Query middleware to filter out deleted users
 studentSchema.pre('find', function (next) {
