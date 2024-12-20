@@ -33,3 +33,4 @@ npm install zod
 
 npm i bcryptjs
 npm i -D @types/bcryptjs
+npm i http-status-codes
