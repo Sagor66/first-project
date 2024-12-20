@@ -105,7 +105,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Gender is required.'],
     },
     dateOfBirth: {
-      type: Date,
+      type: String,
     },
     email: {
       type: String,
@@ -143,6 +143,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     localGuardian: {
       type: localGuardianSchema,
       required: [true, 'Local guardian information is required.'],
+    },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
     },
     profileImg: {
       type: String,

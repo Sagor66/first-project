@@ -27,7 +27,7 @@ export type TStudent = {
   user: Types.ObjectId;
   name: TUserName;
   gender: 'male' | 'female' | 'other';
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
@@ -36,6 +36,7 @@ export type TStudent = {
   permanentAddress: string;
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
+  admissionSemester: Types.ObjectId;
   profileImg?: string;
   isDeleted: boolean;
 };
