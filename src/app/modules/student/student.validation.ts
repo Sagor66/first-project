@@ -48,47 +48,44 @@ const localGuardianValidationSchema = z.object({
 });
 
 // Define the main Student schema
-const studentValidationSchema = z.object({
-  id: z.string().min(1, { message: 'Student ID is required.' }),
-  password: z.string().max(20),
-  name: userNameValidationSchema,
-  gender: z.enum(['male', 'female', 'other'], {
-    errorMap: () => ({
-      message: "Gender must be 'male', 'female', or 'other'.",
+const createStudentValidationSchema = z.object({
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: z.enum(['male', 'female', 'other'], {
+        errorMap: () => ({
+          message: "Gender must be 'male', 'female', or 'other'.",
+        }),
+      }),
+      dateOfBirth: z.string().min(1, { message: 'Date of birth is required.' }),
+      email: z
+        .string()
+        .email({ message: 'Invalid email address.' })
+        .min(1, { message: 'Email address is required.' }),
+      contactNo: z.string().min(1, { message: 'Contact number is required.' }),
+      emergencyContactNo: z
+        .string()
+        .min(1, { message: 'Emergency contact number is required.' }),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], {
+          errorMap: () => ({ message: 'Invalid blood group.' }),
+        })
+        .optional(),
+      presentAddress: z
+        .string()
+        .min(1, { message: 'Present address is required.' }),
+      permanentAddress: z
+        .string()
+        .min(1, { message: 'Permanent address is required.' }),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      profileImg: z.string().optional(),
     }),
   }),
-  dateOfBirth: z.string().min(1, { message: 'Date of birth is required.' }),
-  email: z
-    .string()
-    .email({ message: 'Invalid email address.' })
-    .min(1, { message: 'Email address is required.' }),
-  contactNo: z.string().min(1, { message: 'Contact number is required.' }),
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: 'Emergency contact number is required.' }),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], {
-      errorMap: () => ({ message: 'Invalid blood group.' }),
-    })
-    .optional(),
-  presentAddress: z
-    .string()
-    .min(1, { message: 'Present address is required.' }),
-  permanentAddress: z
-    .string()
-    .min(1, { message: 'Permanent address is required.' }),
-  guardian: guardianValidationSchema,
-  localGuardian: localGuardianValidationSchema,
-  profileImg: z.string().optional(),
-  isActive: z
-    .enum(['active', 'blocked'], {
-      errorMap: () => ({
-        message: 'Status must be either "active" or "blocked".',
-      }),
-    })
-    .default('active'),
-  isDeleted: z.boolean(),
 });
 
 // Export the schema
-export default studentValidationSchema;
+export const studentValidations = {
+  createStudentValidationSchema,
+};
