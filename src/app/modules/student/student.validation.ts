@@ -58,7 +58,7 @@ const createStudentValidationSchema = z.object({
           message: "Gender must be 'male', 'female', or 'other'.",
         }),
       }),
-      dateOfBirth: z.string().min(1, { message: 'Date of birth is required.' }),
+      dateOfBirth: z.date().optional(),
       email: z
         .string()
         .email({ message: 'Invalid email address.' })
@@ -86,6 +86,6 @@ const createStudentValidationSchema = z.object({
 });
 
 // Export the schema
-export const studentValidations = {
+export const StudentValidations = {
   createStudentValidationSchema,
 };
