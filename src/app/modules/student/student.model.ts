@@ -191,7 +191,7 @@ studentSchema.statics.isUserExists = async function (id: string) {
 
 // Virtual -> adding a field in the schema that tis derived from the existing columns
 studentSchema.virtual('fullName').get(function () {
-  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+  return `${this?.name?.firstName} ${this?.name?.middleName} ${this?.name?.lastName}`;
 });
 
 // Creating a custom instance method
