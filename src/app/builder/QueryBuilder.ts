@@ -27,21 +27,14 @@ class QueryBuilder<T> {
     excludeFields.forEach((el) => delete queryObj[el]);
     console.log({ query: this.query }, { queryObj });
 
-    this.modelQuery = this.modelQuery
-      .find(queryObj)
-      .populate('admissionSemester')
-      .populate({
-        path: 'academicDepartment',
-        populate: {
-          path: 'academicFaculty',
-        },
-      });
+    this.modelQuery = this.modelQuery.find(queryObj);
 
     return this;
   }
 
   sort() {
-    const sort = this.query.sort || '-createdAt';
+    const sort =
+      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
     this.modelQuery = this.modelQuery.sort(sort as string);
 
     return this;
