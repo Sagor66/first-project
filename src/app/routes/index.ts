@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { UserRoutes } from '../modules/user/user.route';
-import { StudentRouts } from '../modules/student/student.route';
-import { AcademicSemestersRoutes } from '../modules/academicSemester/academicSemester.route';
-import { AcademicFacultyRoutes } from '../modules/academicFaculty/academicFaculty.route';
+import { AdminRoutes } from '../modules/Admin/admin.route';
+import { FacultyRoutes } from '../modules/Faculty/faculty.route';
 import { AcademicDepartmentRoutes } from '../modules/academicDepartment/academicDepartment.route';
+import { AcademicFacultyRoutes } from '../modules/academicFaculty/academicFaculty.route';
+import { UserRoutes } from '../modules/user/user.route';
+import { StudentRoutes } from '../modules/student/student.route';
+import { AcademicSemestersRoutes } from '../modules/academicSemester/academicSemester.route';
 
 const router = Router();
 
@@ -14,18 +16,26 @@ const moduleRoutes = [
   },
   {
     path: '/students',
-    route: StudentRouts,
+    route: StudentRoutes,
   },
   {
-    path: '/academic-semester',
+    path: '/faculties',
+    route: FacultyRoutes,
+  },
+  {
+    path: '/admins',
+    route: AdminRoutes,
+  },
+  {
+    path: '/academic-semesters',
     route: AcademicSemestersRoutes,
   },
   {
-    path: '/academic-faculty',
+    path: '/academic-faculties',
     route: AcademicFacultyRoutes,
   },
   {
-    path: '/academic-department',
+    path: '/academic-departments',
     route: AcademicDepartmentRoutes,
   },
 ];
